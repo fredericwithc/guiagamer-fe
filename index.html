@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuiaGamer - Detonados de Jogos</title>
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Albert+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header>
+        <h1>GuiaGamer</h1>
+        <p>Seu guia de jogos concentrados em um só lugar e sem spoilers!</p>
+    </header>
+
+    <main>
+        <!-- lista de jogos -->
+        <section id="lista-jogos">
+            <div class="cabecalho-secao">
+                <h2>Jogos disponíveis</h2>
+                <button id="btn-cadastrar-jogo" class="btn-acao">+ Cadastrar jogo</button>
+            </div>
+            <div id="jogos-container">
+                <!-- jogos vão aparecer aqui via javascript -->
+                <p>Carregando jogos...</p>
+            </div>
+        </section>
+
+        <!-- tela do detonado - escondida -->
+        <section id="tela-detonado" style="display: none;">
+            <button id="btn-voltar" class="btn-secundario">Voltar</button>
+            <div id="info-jogo">
+                <!-- info do jogo selecionado -->
+            </div>
+            <div id="etapas-container">
+                <!-- etapas aparecem aqui -->
+            </div>
+            <div class="acoes-detonado">
+                <button id="btn-cadastrar-etapa" class="btn-acao">Cadastrar etapa</button>
+            </div>
+
+        </section>
+
+        <!-- tela do formulario de cadastrar jogo -->
+        <section id="tela-cadastrar-jogo" style="display: none;">
+            <button id="btn-voltar-cadastro" class="btn-secundario">← Voltar</button>
+
+            <h2>Cadastrar novo jogo</h2>
+
+            <form id="form-cadastrar-jogo">
+                <div class="campo">
+                    <label for="input-nome">Nome do jogo</label>
+                    <input type="text" id="input-nome" required placeholder="Ex: Super Mario World">
+                </div>
+
+                <div class="campo">
+                    <label for="input-plataforma">Plataforma</label>
+                    <input type="text" id="input-plataforma" required placeholder="Ex: Super Nintendo">
+                </div>
+
+                <div class="campo">
+                    <label for="input-descricao">Descrição (opcional)</label>
+                    <textarea id="input-descricao" rows="4" placeholder="Sobre o que é o jogo..."></textarea>
+                </div>
+
+                <div class="form-botoes">
+                    <button type="button" id="btn-cancelar" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-acao">Salvar jogo</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- tela do formulario de cadastrar etapa -->
+        <section id="tela-cadastrar-etapa" style="display: none;">
+            <button id="btn-voltar-etapa" class="btn-secundario">Voltar</button>
+
+            <h2>Nova etapa - <span id="nome-jogo-etapa"></span></h2>
+
+            <form id="form-cadastrar-etapa">
+                <div class="campo">
+                    <label for="input-numero">Número da etapa</label>
+                    <input type="number" id="input-numero" required min="1" placeholder="Ex: 1">
+                </div>
+
+                <div class="campo">
+                    <label for="input-titulo">Título da etapa (sem spoilers!)</label>
+                    <input type="text" id="input-titulo" required placeholder="Ex: Como derrotar o primeiro chefe">
+                </div>
+
+                <div class="campo">
+                    <label for="input-pista-leve">Pista leve</label>
+                    <textarea id="input-pista-leve" rows="3" required
+                        placeholder="Uma dica sutil, sem spoilers diretos..."></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="input-pista-media">Pista direta</label>
+                    <textarea id="input-pista-media" rows="3" required
+                        placeholder="Uma dica mais clara, mas ainda sem entregar tudo..."></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="input-resposta-completa">Passo completo</label>
+                    <textarea id="input-resposta-completa" rows="4" required
+                        placeholder="A resposta detalhada, passo a passo..."></textarea>
+                </div>
+
+                <div class="form-botoes">
+                    <button type="button" id="btn-cancelar-etapa" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-acao">Salvar etapa</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>GuiaGamer &copy; 2026</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
