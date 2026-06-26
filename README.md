@@ -84,7 +84,7 @@ Paleta personalizada com fundo escuro e destaque em dourado:
 
 ## Back-end
 
-Este projeto depende da API que está em outro repositório: [guiagamer-be](LINK_DO_BACKEND)
+Este projeto depende da API que está em outro repositório: [guiagamer-be](https://github.com/fredericwithc/guiagamer-be)
 
 ## Feito por
 
