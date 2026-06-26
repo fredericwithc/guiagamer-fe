@@ -36,7 +36,7 @@ No futuro, a ideia é que o site funcione como um "wikipedia" em que temos um si
 
 ### Pré-requisitos
 
-Para usar o front-end, você precisa que a API esteja rodando localmente. Repositório do back-end aqui: [guiagamer-be](LINK_DO_BACKEND)
+Para usar o front-end, você precisa que a API esteja rodando localmente. Repositório do back-end aqui: [guiagamer-be](https://github.com/fredericwithc/guiagamer-be)
 
 ### Passo a passo
 
