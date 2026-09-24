@@ -82,6 +82,29 @@ Paleta personalizada com fundo escuro e destaque em dourado:
 - Secundária (azul): `#7C9CFF`
 - Concluído (verde): `#5FBF8A`
 
+## API Externa (RAWG)
+
+O front-end aproveita a integração do back-end com a RAWG Video Games Database API para trazer dados enriquecidos dos jogos.
+
+### Como funciona
+
+Ao cadastrar um novo jogo:
+
+1. O usuário digita o nome do jogo
+2. Clica no botão "Buscar"
+3. O front-end faz uma requisição para o back-end (rota `/buscar_jogo_externo`)
+4. O back-end consulta a RAWG e retorna os resultados
+5. Os resultados aparecem em cards com capa, plataforma e ano de lançamento
+6. Ao clicar em um resultado, os campos do formulário são preenchidos automaticamente
+
+Assim, o usuário não precisa preencher os dados manualmente e ainda ganha a capa do jogo pra deixar os cards mais bonitos.
+
+### Sobre a RAWG
+
+A RAWG é uma das maiores bases de dados de videogames do mundo, com mais de 500 mil jogos catalogados. A API é gratuita para uso pessoal (até 20.000 requisições por mês).
+
+Mais informações em rawg.io/apidocs.
+
 ## Back-end
 
 Este projeto depende da API que está em outro repositório: [guiagamer-be](LINK_DO_BACKEND)

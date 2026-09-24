@@ -21,36 +21,55 @@
 <body>
 
     <header>
-        <h1>GuiaGamer</h1>
-        <p>Seu guia de jogos concentrados em um só lugar e sem spoilers!</p>
+        <div class="header-marca">
+            <h1>GuiaGamer</h1>
+            <p>Seu guia de jogos concentrados em um só lugar e sem spoilers!</p>
+        </div>
+        <button type="button" id="btn-voltar" class="btn-voltar-header">← Voltar aos jogos</button>
     </header>
 
     <main>
         <!-- lista de jogos -->
-        <section id="lista-jogos">
+        <section id="lista-jogos" class="painel-lista-jogos">
             <div class="cabecalho-secao">
-                <h2>Jogos disponíveis</h2>
+                <h2>Jogos disponíveis <span id="contador-jogos" class="contador-jogos"></span></h2>
                 <button id="btn-cadastrar-jogo" class="btn-acao">+ Cadastrar jogo</button>
             </div>
             <div id="jogos-container">
-                <!-- jogos vão aparecer aqui via javascript -->
                 <p>Carregando jogos...</p>
             </div>
         </section>
 
         <!-- tela do detonado - escondida -->
         <section id="tela-detonado" style="display: none;">
-            <button id="btn-voltar" class="btn-secundario">Voltar</button>
-            <div id="info-jogo">
-                <!-- info do jogo selecionado -->
-            </div>
-            <div id="etapas-container">
-                <!-- etapas aparecem aqui -->
-            </div>
-            <div class="acoes-detonado">
-                <button id="btn-cadastrar-etapa" class="btn-acao">Cadastrar etapa</button>
-            </div>
+            <div class="layout-etapa">
+                <aside class="sidebar-jogo" id="sidebar-jogo">
+                    <div class="sidebar-capa" id="sidebar-capa">
+                        <span>capa do jogo</span>
+                    </div>
+                    <h2 id="sidebar-nome-jogo"></h2>
+                    <p class="plataforma" id="sidebar-plataforma"></p>
 
+                    <div class="sidebar-progresso">
+                        <div class="progresso-cabecalho">
+                            <span>Progresso</span>
+                            <span id="progresso-percentual">0%</span>
+                        </div>
+                        <div class="barra-progresso">
+                            <div class="barra-progresso-fill" id="barra-progresso-fill"></div>
+                        </div>
+                        <p class="progresso-texto" id="progresso-texto">0 de 0 etapas concluídas</p>
+                    </div>
+
+                    <ul class="lista-etapas-nav" id="lista-etapas-nav"></ul>
+
+                    <button type="button" id="btn-cadastrar-etapa" class="btn-cadastrar-etapa-sidebar">+ Cadastrar etapa</button>
+                </aside>
+
+                <div class="painel-etapa" id="painel-etapa">
+                    <!-- etapa ativa renderizada via javascript -->
+                </div>
+            </div>
         </section>
 
         <!-- tela do formulario de cadastrar jogo -->
@@ -59,27 +78,40 @@
 
             <h2>Cadastrar novo jogo</h2>
 
-            <form id="form-cadastrar-jogo">
-                <div class="campo">
-                    <label for="input-nome">Nome do jogo</label>
-                    <input type="text" id="input-nome" required placeholder="Ex: Super Mario World">
+            <div class="container-cadastro">
+                <div class="preview-capa" id="preview-capa" style="display: none;">
+                    <img id="preview-imagem" src="" alt="Capa do jogo">
                 </div>
 
-                <div class="campo">
-                    <label for="input-plataforma">Plataforma</label>
-                    <input type="text" id="input-plataforma" required placeholder="Ex: Super Nintendo">
-                </div>
+                <form id="form-cadastrar-jogo">
+                    <div class="campo">
+                        <label for="input-nome">Nome do jogo</label>
+                        <div class="campo-com-botao">
+                            <input type="text" id="input-nome" required placeholder="Ex: Super Mario World">
+                            <button type="button" id="btn-buscar-externo" class="btn-secundario">Buscar</button>
+                        </div>
+                    </div>
 
-                <div class="campo">
-                    <label for="input-descricao">Descrição (opcional)</label>
-                    <textarea id="input-descricao" rows="4" placeholder="Sobre o que é o jogo..."></textarea>
-                </div>
+                    <div id="resultados-externos"></div>
 
-                <div class="form-botoes">
-                    <button type="button" id="btn-cancelar" class="btn-secundario">Cancelar</button>
-                    <button type="submit" class="btn-acao">Salvar jogo</button>
-                </div>
-            </form>
+                    <div class="campo">
+                        <label for="input-plataforma">Plataforma</label>
+                        <input type="text" id="input-plataforma" required placeholder="Ex: Super Nintendo">
+                    </div>
+
+                    <div class="campo">
+                        <label for="input-descricao">Descrição (opcional)</label>
+                        <textarea id="input-descricao" rows="4" placeholder="Sobre o que é o jogo..."></textarea>
+                    </div>
+
+                    <input type="hidden" id="input-imagem-url">
+
+                    <div class="form-botoes">
+                        <button type="button" id="btn-cancelar" class="btn-secundario">Cancelar</button>
+                        <button type="submit" class="btn-acao">Salvar jogo</button>
+                    </div>
+                </form>
+            </div>
         </section>
 
         <!-- tela do formulario de cadastrar etapa -->
@@ -120,6 +152,77 @@
                 <div class="form-botoes">
                     <button type="button" id="btn-cancelar-etapa" class="btn-secundario">Cancelar</button>
                     <button type="submit" class="btn-acao">Salvar etapa</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="tela-editar-jogo" style="display: none;">
+            <button id="btn-voltar-editar-jogo" class="btn-secundario">← Voltar</button>
+
+            <h2>Editar jogo</h2>
+
+            <form id="form-editar-jogo">
+                <div class="campo">
+                    <label for="input-editar-nome">Nome do jogo</label>
+                    <input type="text" id="input-editar-nome" required>
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-plataforma">Plataforma</label>
+                    <input type="text" id="input-editar-plataforma" required>
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-descricao">Descrição</label>
+                    <textarea id="input-editar-descricao" rows="4"></textarea>
+                </div>
+
+                <input type="hidden" id="input-editar-imagem-url">
+                <input type="hidden" id="input-editar-jogo-id">
+
+                <div class="form-botoes">
+                    <button type="button" id="btn-cancelar-editar-jogo" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-acao">Salvar alterações</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="tela-editar-etapa" style="display: none;">
+            <button id="btn-voltar-editar-etapa" class="btn-secundario">← Voltar</button>
+
+            <h2>Editar etapa</h2>
+
+            <form id="form-editar-etapa">
+                <div class="campo">
+                    <label for="input-editar-numero">Número da etapa</label>
+                    <input type="number" id="input-editar-numero" required min="1">
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-titulo">Título da etapa (sem spoilers!)</label>
+                    <input type="text" id="input-editar-titulo" required>
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-pista-leve">Pista leve</label>
+                    <textarea id="input-editar-pista-leve" rows="3" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-pista-media">Pista direta</label>
+                    <textarea id="input-editar-pista-media" rows="3" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="input-editar-resposta-completa">Passo completo</label>
+                    <textarea id="input-editar-resposta-completa" rows="4" required></textarea>
+                </div>
+
+                <input type="hidden" id="input-editar-etapa-id">
+
+                <div class="form-botoes">
+                    <button type="button" id="btn-cancelar-editar-etapa" class="btn-secundario">Cancelar</button>
+                    <button type="submit" class="btn-acao">Salvar alterações</button>
                 </div>
             </form>
         </section>
