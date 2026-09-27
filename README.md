@@ -1,4 +1,3 @@
-
 # GuiaGamer - Front-end
 
 Interface web do **GuiaGamer**, um app web que oferece detonados de jogos com sistema de pistas progressivas para evitar spoilers indesejados.
@@ -13,7 +12,7 @@ O GuiaGamer nasceu pra resolver alguns problemas comuns dos gamers ao consultar 
 - Dificuldade de lembrar exatamente onde parou no detonado
 - Necessidade de consultar diferentes sites dependendo do jogo
 
-Para evitar spoilers, a API oferece um sistema de pistas em 3 níveis:
+Para evitar spoilers, o app oferece um sistema de pistas em 3 níveis:
 
 - **Dica leve**: uma sugestão sutil, sem entregar a resposta
 - **Dica direta**: orientação mais clara
@@ -23,7 +22,17 @@ Assim, o jogador escolhe quanto quer revelar a cada momento.
 
 Além disso, o app permite marcar etapas como concluídas, ajudando o jogador a acompanhar seu progresso e retomar de onde parou.
 
-No futuro, a ideia é que o site funcione como um "wikipedia" em que temos um sistema de login e que os usuarios podem cadastrar os jogos e detonados e fazerem sugestões de ajustes quando preferirem.
+No futuro, a ideia é que o site funcione como um "wikipedia" em que temos um sistema de login e que os usuários podem cadastrar os jogos e detonados e fazerem sugestões de ajustes quando preferirem.
+
+## Arquitetura
+
+O projeto segue o Cenário 1 da proposta do MVP, com três componentes se comunicando:
+
+- **Front-end** (este repositório): interface web em HTML, CSS e JavaScript, servida por nginx quando rodada em container
+- **API GuiaGamer**: API REST em Python com Flask
+- **RAWG API** (externa): base de dados de jogos usada para enriquecer os cadastros
+
+![Arquitetura do GuiaGamer](arquitetura-guiagamer.png)
 
 ## Tecnologias usadas
 
@@ -31,40 +40,48 @@ No futuro, a ideia é que o site funcione como um "wikipedia" em que temos um si
 - CSS3
 - JavaScript
 - Google Fonts (Space Grotesk e Albert Sans)
+- nginx (servidor web quando roda em container)
+- Docker
 
 ## Como rodar
 
 ### Pré-requisitos
 
-Para usar o front-end, você precisa que a API esteja rodando localmente. Repositório do back-end aqui: [guiagamer-be](LINK_DO_BACKEND)
+Para usar o front-end, você precisa que a API esteja rodando localmente. Repositório do back-end aqui: https://github.com/fredericwithc/guiagamer-be
 
 ### Passo a passo
 
-1. Clone o repositório:
-
-```
-git clone https://github.com/fredericwithc/guiagamer-fe.git
-```
+1. Clonar o repositório: `git clone https://github.com/fredericwithc/guiagamer-fe.git`
 
 2. Certifique-se de que a API está rodando em `http://localhost:5000`
 
-3. Só abrir o arquivo `index.html` no seu navegador e pronto.
+3. Só abrir o arquivo `index.html` no seu navegador.
 
 ## Funcionalidades
 
 ### Tela inicial
 
-- Lista todos os jogos cadastrados em formato de cards
-- Cada card mostra nome, plataforma e descrição
+- Lista todos os jogos cadastrados em formato de cards com capas
+- Cada card mostra imagem, nome, plataforma e descrição
 - Botão para cadastrar um novo jogo
+- Botão de editar em cada card
 - Botão de deletar em cada card
+
+### Cadastro de jogos com API externa
+
+- Ao digitar o nome de um jogo, a busca acontece automaticamente na base RAWG
+- Também tem botão de buscar para quando o usuário preferir clicar
+- Ao selecionar um jogo dos resultados, os campos são preenchidos automaticamente
+- Preview da capa do jogo aparece ao lado do formulário
 
 ### Tela de detonado
 
 - Mostra as etapas do jogo selecionado em ordem
-- Sistema de pistas em 3 níveis
+- Sistema de pistas em 3 níveis (reversíveis)
 - Marcar etapa como concluída
 - Botão para cadastrar nova etapa
+- Botão para editar etapas
+- Botão para deletar etapas
 
 ### Persistência do progresso
 
@@ -90,12 +107,11 @@ O front-end aproveita a integração do back-end com a RAWG Video Games Database
 
 Ao cadastrar um novo jogo:
 
-1. O usuário digita o nome do jogo
-2. Clica no botão "Buscar"
-3. O front-end faz uma requisição para o back-end (rota `/buscar_jogo_externo`)
-4. O back-end consulta a RAWG e retorna os resultados
-5. Os resultados aparecem em cards com capa, plataforma e ano de lançamento
-6. Ao clicar em um resultado, os campos do formulário são preenchidos automaticamente
+1. O usuário digita o nome do jogo (a busca é feita automaticamente enquanto digita)
+2. O front-end faz uma requisição para o back-end (rota `/buscar_jogo_externo`)
+3. O back-end consulta a RAWG e retorna os resultados
+4. Os resultados aparecem em cards com capa, plataforma e ano de lançamento
+5. Ao clicar em um resultado, os campos do formulário são preenchidos automaticamente e a capa do jogo aparece do lado
 
 Assim, o usuário não precisa preencher os dados manualmente e ainda ganha a capa do jogo pra deixar os cards mais bonitos.
 
@@ -105,9 +121,35 @@ A RAWG é uma das maiores bases de dados de videogames do mundo, com mais de 500
 
 Mais informações em rawg.io/apidocs.
 
+## Como rodar com Docker
+
+O projeto tem um Dockerfile pronto para rodar em containers usando nginx.
+
+### Pré-requisitos
+
+- Docker Desktop instalado e rodando
+- API do back-end também rodando (veja o repositório do back-end)
+
+### Passo a passo
+
+1. Clonar o repositório: `git clone https://github.com/fredericwithc/guiagamer-fe.git` e depois `cd guiagamer-fe`
+
+2. Fazer o build da imagem: `docker build -t guiagamer-fe .`
+
+3. Rodar o container: `docker run -d -p 8080:80 --name guiagamer-front guiagamer-fe`
+
+4. Acessar o app em `http://localhost:8080`
+
+### Comandos úteis
+
+- Ver logs: `docker logs guiagamer-front`
+- Parar o container: `docker stop guiagamer-front`
+- Iniciar de novo: `docker start guiagamer-front`
+- Remover o container: `docker rm guiagamer-front`
+
 ## Back-end
 
-Este projeto depende da API que está em outro repositório: [guiagamer-be](LINK_DO_BACKEND)
+Este projeto depende da API que está em outro repositório: https://github.com/fredericwithc/guiagamer-be
 
 ## Feito por
 
